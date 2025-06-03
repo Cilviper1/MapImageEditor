@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login / Register</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; }
+        .container { max-width: 400px; margin: 60px auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px #ccc; }
+        input[type="text"], input[type="password"] { width: 100%; padding: 10px; margin: 8px 0 16px 0; border: 1px solid #ccc; border-radius: 4px; }
+        button { width: 100%; padding: 10px; background: #007bff; color: #fff; border: none; border-radius: 4px; font-size: 16px; }
+        .message { color: red; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login / Register</h2>
+        <div class="message" id="message"></div>
+        <form id="loginForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+            <button type="submit">Login / Register</button>
+        </form>
+    </div>
+    <script>
+        // This script requires a backend to actually create folders and store users.
+        // The following is a demonstration of the frontend logic only.
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!username || !password) {
+                document.getElementById('message').textContent = "Please enter both username and password.";
+                return;
+            }
+
+            // Simulate sending data to backend
+            // Replace this with a real API call in production
+            try {
+                const response = await fetch('/api/registerOrLogin', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    window.location.href = '/Cilviper1/MapImageEditor/SiteMap/HomePage.html';
+                } else {
+                    document.getElementById('message').textContent = result.message || "Login/Register failed.";
+                }
+            } catch (err) {
+                document.getElementById('message').textContent = "Server error. Please try again later.";
+            }
+        });
+    </script>
+</body>
+
+</html>
